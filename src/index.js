@@ -1,9 +1,13 @@
-const express = require('express');
-const app = express();
+// Importamos el APP
+const app = require('./app');
 
-app.route('/', (req, res) => {
-    res.json({saludar: "holi"});
-});
+// Ejecutamos la función principal que ejecutara el aplicativo
+const init = async () => {
+    // Especificamos el puerto
+    const port = 5000;
+    // Ejecutamos el metodo escucha de express
+    await app.listen(port);
+    console.log(`Ejecutamos el servidor por el puerto (${port})`);
+}
 
-app.listen(8000);
-console.log('Server on port 8000');
+init();
