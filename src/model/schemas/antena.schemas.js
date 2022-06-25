@@ -68,6 +68,10 @@ const AntenaSchema = new mongoose.Schema({
     device_location: {
         type: String,
         required: true,
+    },
+    device_status: {
+        type: Boolean,
+        default: true,
     }
 });
 
