@@ -1,32 +1,40 @@
 // Importamos las librerias necesarias
 const express = require('express');
 const morgan = require('morgan');
+const session = require('express-session');
 
+// Importamos Middlewares
+const { setSessions, isLoggedIn } = require('./middlewares/Auth');
 
 // Creamos la instancia del servidor APP
 const app = express();
 
 // Obtenemos las variables de configuraciones
-const { PORT_SERVER } = require('./config/config');
+const { PORT_SERVER, SECRET_SERVER } = require('./config/config');
 // Obtenemos la conexion a MongoDB
 const Database = require('./config/database');
 
 // Middlewares
+Database.connect(); // Realizamos la conexion a MongoDB
 app.use(morgan('dev'));
 app.use(express.json());
-Database.connect(); // Realizamos la conexion a MongoDB
+// app.use(setSessions);
 
 // Establecemos el port del servidor
 app.set('PORT', PORT_SERVER);
 
 // Importamos las rutas
 const homeRouter = require('./routes/home.router'); // Ruta principal del Home
+const userRouter = require('./routes/user.router'); // Ruta relacionada a los usuarios
 const antenasRouter = require('./routes/antenas.router'); // Ruta relacionadas a las antenas
+const errorRouter = require('./routes/error.router'); // Ruta relacionadas al error404
 const error404Router = require('./routes/error404.router'); // Ruta relacionadas al error404
 
 // Creamos las rutas necesarias
 app.use('/', homeRouter);
-app.use('/api/antenas/', antenasRouter);
+app.use('/error', errorRouter) // Ruta de errores
+app.use('/api/users/', userRouter) // Ruta relacionadas a los usuarios
+app.use('/api/antenas/', isLoggedIn, antenasRouter); // Ruta especifica para las antenas
 
 // Ruta error 404
 app.use('*', error404Router) // 404 error handler

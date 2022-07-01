@@ -1,10 +1,11 @@
-const { Message } = require("../config/utils");
+const { Message, isVerRol } = require("../config/utils");
 const AntenaModel = require("../model/antena.model");
 
 const antenasCtrl = {};
 
 // Creamos las Antenas
 antenasCtrl.createNewAntena = async (req, res) => {
+    if (!isVerRol(req, ["AdminG", "AdminE"])) return res.redirect('/error/notAuthorization');
     const data = req.body;
 
     const Antena = new AntenaModel();
@@ -15,14 +16,15 @@ antenasCtrl.createNewAntena = async (req, res) => {
 
 // Enlistamos todas las antenas
 antenasCtrl.listAllAntenas = async (req, res) => {
+    if (!isVerRol(req, ["AdminG", "AdminE"])) return res.redirect('/error/notAuthorization');
     const Antena = new AntenaModel();
     const getListAntenas = await Antena.listAllAntenas();
-
     res.json(Message(false, 200, "Lista de Antenas", getListAntenas.others));
 }
 
 // Buscamos antenas mediante un pequeño filtro
 antenasCtrl.findAnyAntena = async (req, res) => {
+    if (!isVerRol(req, ["AdminG", "AdminE"])) return res.redirect('/error/notAuthorization');
     const { key, value } = req.body;
     const parameters = {
         [key]: value
@@ -36,6 +38,7 @@ antenasCtrl.findAnyAntena = async (req, res) => {
 
 // Actualizamos las antenas
 antenasCtrl.updateAntena = async (req, res) => {
+    if (!isVerRol(req, ["AdminG", "AdminE"])) return res.redirect('/error/notAuthorization');
     const { _id, mac_device } = req.params;
     const { data } = req.body;
     let response = Message(true, 0, "Campos Vacios.");
@@ -56,6 +59,7 @@ antenasCtrl.updateAntena = async (req, res) => {
 
 // Cambiamos el estado de las antenas
 antenasCtrl.changeStatusAntena = async (req, res) => {
+    if (!isVerRol(req, ["AdminG", "AdminE"])) return res.redirect('/error/notAuthorization');
     const { _id, mac_device } = req.params;
     const { status } = req.body;
     let response = Message(true, 0, "Campos Vacios.");
