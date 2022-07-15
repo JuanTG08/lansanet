@@ -13,8 +13,8 @@ Utils.Message = (error, statusCode, message, others = false) => {
 }
 
 /* Realizamos todas las funciones relacionadas a la encriptación */
-Utils.encrypt = (text) => {
-
+Utils.encrypt = text => {
+    const textEncrypted = crypto.createSign
 }
 
 /* Realizamos todo lo relacionado al tiempo */
