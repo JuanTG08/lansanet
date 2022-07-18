@@ -1,10 +1,9 @@
 // Importamos las librerias necesarias
 const express = require('express');
 const morgan = require('morgan');
-const session = require('express-session');
 
 // Importamos Middlewares
-const { setSessions, isLoggedIn } = require('./middlewares/Auth');
+const { isLoggedIn, is_AdminG, is_AdminE } = require('./middlewares/tokenAuth');
 
 // Creamos la instancia del servidor APP
 const app = express();
@@ -34,7 +33,7 @@ const error404Router = require('./routes/error404.router'); // Ruta relacionadas
 app.use('/', homeRouter);
 app.use('/error', errorRouter) // Ruta de errores
 app.use('/api/users/', userRouter) // Ruta relacionadas a los usuarios
-app.use('/api/antenas/', isLoggedIn, antenasRouter); // Ruta especifica para las antenas
+app.use('/api/antenas/', isLoggedIn, is_AdminE, antenasRouter); // Ruta especifica para las antenas
 
 // Ruta error 404
 app.use('*', error404Router) // 404 error handler

@@ -1,5 +1,6 @@
 const { Message } = require("../config/utils");
-const { generateTokenId } = require("../middlewares/Auth");
+
+const { createTokenAuth } = require("../middlewares/tokenAuth");
 const UserModel = require("../model/user.model");
 
 const userCtrl = {};
@@ -28,10 +29,10 @@ userCtrl.loginUser = async (req, res) => {
     const getUser = await User.findOneUser(data);
 
     if (!getUser.error && getUser.statusCode === 200 && getUser.others) {
-        const { email, password, role } = getUser.others;
-        const token = await generateTokenId({ email, password, role, expiration_time_min: 30 });
-        if (token.error) response = Message(true, 802, "Error de conexion");
-        else response = token;
+        const { _id } = getUser.others;
+        const token = await createTokenAuth({ _id });
+        if (!token) response = Message(true, 802, "Error Interno");
+        else response = Message(false, 200, "Ok", { token });
     }else {
         response = getUser;
     }

@@ -5,6 +5,7 @@
     - 800: Session existente y activa
     - 801: Session expirada
     - 802: No es posible realizar la peticion por parte de la API hacia la db
+    - 810: Token Invalido
 
 ## statusCode del Cliente
     - 401: No tienes autorización

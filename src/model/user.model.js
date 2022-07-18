@@ -9,8 +9,7 @@ class UserModel {
             .then(resp => {
                 return Message(false, 200, "Se guardo el usuario correctamente");
             }).catch(err => {
-                console.log(err);
-                return Message(false, 500, "Error al intentar generar esta acción");
+                return Message(true, 500, "Error al intentar generar esta acción");
             });
     }
 
@@ -18,10 +17,9 @@ class UserModel {
         return User.find({})
             .then(resp => {
                 if (resp.length > 0) return Message(false, 200, "Se obtuvieron todas los usuarios", resp);
-                return Message(false, 501, "No se encontro nada.");
+                return Message(true, 501, "No se encontro nada.");
             }).catch(err => {
-                console.log(err);
-                return Message(false, 500, "Error al intentar generar esta acción");
+                return Message(true, 500, "Error al intentar generar esta acción");
             });
     }
 
@@ -29,11 +27,20 @@ class UserModel {
         return User.findOne({ email, password })
             .then(user => {
                 if (user) return Message(false, 200, "Usuario encontrado", user);
-                return Message(false, 501, "No se encontro nada.");
+                return Message(true, 501, "No se encontro nada.");
             }).catch(err => {
-                console.log(err);
-                return Message(false, 500, "Error al intentar generar esta acción");
+                return Message(true, 500, "Error al intentar generar esta acción");
             });
+    }
+
+    static findOneById(_id) {
+        return User.findById(_id, 'role status') // Solo vamos a pedir el role y el status
+            .then(user => {
+                if (user) return Message(false, 200, "Usuario encontrado", user);
+                return Message(true, 501, "No se encontro nada.");
+            }).catch(err => {
+                return Message(true, 500, "Error al intentar generar esta acción");
+            })
     }
 }
 
