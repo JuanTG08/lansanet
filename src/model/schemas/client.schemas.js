@@ -9,10 +9,10 @@ const ClientSchema = new mongoose.Schema({
         type: String,
     },
     document_id: {
-        type: number,
+        type: Number,
     },
     number_phone: {
-        type: number
+        type: Number
     },
     address: {
         type: String,
@@ -23,7 +23,7 @@ const ClientSchema = new mongoose.Schema({
         required: true,
     },
     email: {
-        type: Number,
+        type: String,
     },
     installation_date: {
         type: Date,

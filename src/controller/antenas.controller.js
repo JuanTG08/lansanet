@@ -15,7 +15,6 @@ antenasCtrl.createNewAntena = async (req, res) => {
 
 // Enlistamos todas las antenas
 antenasCtrl.listAllAntenas = async (req, res) => {
-    // if (!isVerRol(req, ["AdminG", "AdminE"])) return res.redirect('/error/notAuthorization');
     const Antena = new AntenaModel();
     const getListAntenas = await Antena.listAllAntenas();
     res.json(Message(false, 200, "Lista de Antenas", getListAntenas.others));

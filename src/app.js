@@ -25,6 +25,7 @@ app.set('PORT', PORT_SERVER);
 // Importamos las rutas
 const homeRouter = require('./routes/home.router'); // Ruta principal del Home
 const userRouter = require('./routes/user.router'); // Ruta relacionada a los usuarios
+const clientRouter = require('./routes/client.router');
 const antenasRouter = require('./routes/antenas.router'); // Ruta relacionadas a las antenas
 const errorRouter = require('./routes/error.router'); // Ruta relacionadas al error404
 const error404Router = require('./routes/error404.router'); // Ruta relacionadas al error404
@@ -33,6 +34,7 @@ const error404Router = require('./routes/error404.router'); // Ruta relacionadas
 app.use('/', homeRouter);
 app.use('/error', errorRouter) // Ruta de errores
 app.use('/api/users/', userRouter) // Ruta relacionadas a los usuarios
+app.use('/api/clients/', isLoggedIn, is_AdminE, clientRouter); // Ruta especifica para los Clientes
 app.use('/api/antenas/', isLoggedIn, is_AdminE, antenasRouter); // Ruta especifica para las antenas
 
 // Ruta error 404
